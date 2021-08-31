@@ -11,13 +11,23 @@ public class LevelManager : MonoBehaviour
     public float gapCol = 1.5f;
 
     public GameObject itemPrefab;
+
+    public ItemBehavior[] items; //liste d'itemBehavior
+
     // Start is called before the first frame update
     void Start()
     {
+        items = new ItemBehavior[row * col];
+        int index = 0;
+
         for(int x = 0; x < col; x++)
             for(int z=0; z < row; z++) {
                 Vector3 position = new Vector3(x*gapCol, 0, z*gapRow);
                 GameObject item = Instantiate(itemPrefab, position, Quaternion.identity);
+                items[index] = item.GetComponent<ItemBehavior>();
+                items[index].id = index;
+                items[index].manager = this;
+                index++;
             }
     }
 
