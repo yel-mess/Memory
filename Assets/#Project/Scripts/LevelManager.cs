@@ -85,11 +85,13 @@ public class LevelManager : MonoBehaviour
             selected.Add(id);
             Material material = itemMaterial[id];
             items[id].GetComponent<Renderer>().material = material;
+            items[id].HasBeenSelected(true);
         }
     }
     private void ResetMaterial(int id) {
         //remettre le default material sur l'objet qui a pour id ce qui a été passé en paramètre.
         items[id].GetComponent<Renderer>().material = defaultMaterial;
+        items[id].HasBeenSelected(false);
     }
     void Update()
     {
@@ -104,6 +106,8 @@ public class LevelManager : MonoBehaviour
             }
             else {
                 StartCoroutine(ResetMaterials(selected[0], selected[1]));
+
+
             }
             selected.Clear();
         }
