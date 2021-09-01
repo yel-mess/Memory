@@ -99,6 +99,8 @@ public class LevelManager : MonoBehaviour
             if(itemMaterial[selected[0]] == itemMaterial[selected[1]]) {
                 matches.Add(selected[0]);
                 matches.Add(selected[1]);
+                items[selected[0]].HasBeenMatched();
+                items[selected[1]].HasBeenMatched();
 
                 if(matches.Count >= row * col) {
                     StartCoroutine(Win());

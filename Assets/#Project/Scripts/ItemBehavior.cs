@@ -35,4 +35,7 @@ public class ItemBehavior : MonoBehaviour
     public void HasBeenSelected(bool selected) {
         animator.SetBool("ItemSelected", selected);
     }
+    public void HasBeenMatched() { //pas de paramètre car toujours vrai
+        animator.SetBool("ItemMatch", true);
+    }
 }
