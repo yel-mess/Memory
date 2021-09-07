@@ -5,8 +5,9 @@ using UnityEngine.Events;
 
 public class LevelManager : MonoBehaviour
 {
-    public int row = 3; //nbr de lignes
-    public int col = 4; //nbr de colonnes
+
+    private int row; //nbr de lignes
+    private int col; //nbr de colonnes
 
     public float gapRow = 1.5f;
     public float gapCol = 1.5f;
@@ -24,8 +25,14 @@ public class LevelManager : MonoBehaviour
     private Dictionary <int, Material> itemMaterial = new Dictionary<int, Material>();
     public UnityEvent whenPlayerWins;
 
+    private float timer = 0f;
+
     void Start()
     {
+        
+        row = PlayerPrefs.GetInt("row", 3);
+        col = PlayerPrefs.GetInt("col", 4);
+
         items = new ItemBehavior[row * col];
         int index = 0;
 
@@ -79,6 +86,8 @@ public class LevelManager : MonoBehaviour
     private IEnumerator Win() {
         yield return new WaitForSeconds(timeBeforeReset); //attend x secondes
         whenPlayerWins?.Invoke(); //if (whenPlayerWins != null)
+        
+
     }
     public void RevealMaterial(int id) {
         if(resetOnGoing == false && !selected.Contains(id) && !matches.Contains(id)) {//si l'id ne se trouve pas dans la liste
@@ -95,6 +104,7 @@ public class LevelManager : MonoBehaviour
     }
     void Update()
     {
+        timer += Time.deltaTime;
         if(selected.Count == 2) {
             if(itemMaterial[selected[0]] == itemMaterial[selected[1]]) {
                 matches.Add(selected[0]);
@@ -103,6 +113,7 @@ public class LevelManager : MonoBehaviour
                 items[selected[1]].HasBeenMatched();
 
                 if(matches.Count >= row * col) {
+                    PlayerPrefs.SetFloat("timer", timer);
                     StartCoroutine(Win());
                 }
             }
